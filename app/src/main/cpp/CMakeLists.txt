@@ -22,6 +22,26 @@ set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${LINKER_FLAGS}")
 add_library(
         dummy SHARED
         dummy.cpp
+        imgui/imgui.cpp
+        imgui/imgui_draw.cpp
+        imgui/imgui_tables.cpp
+        imgui/imgui_widgets.cpp
+        imgui/backends/imgui_impl_android.cpp
+        imgui/backends/imgui_impl_opengl3.cpp
+        libs/xdl/xdl.c
+        libs/xdl/xdl_iterate.c
+        libs/xdl/xdl_linker.c
+        libs/xdl/xdl_lzma.c
+        libs/xdl/xdl_util.c
 )
 
-target_link_libraries(dummy android log)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/dobby/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/assets)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/imgui)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/xdl)
+
+set(DOBBY_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libs/dobby/${CMAKE_ANDROID_ARCH_ABI}/libdobby.a)
+
+target_link_libraries(dummy android EGL GLESv3 log ${DOBBY_LIB})
